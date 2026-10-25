@@ -1,0 +1,31 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ogbg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EFF6FF"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </radialGradient>
+    <linearGradient id="textGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="50%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogbg)"/>
+  <circle cx="1000" cy="180" r="300" fill="#4F46E5" fill-opacity="0.08" filter="blur(70px)"/>
+  <circle cx="200" cy="500" r="240" fill="#8B5CF6" fill-opacity="0.06" filter="blur(70px)"/>
+  
+  <!-- Monogram Box -->
+  <rect x="100" y="100" width="80" height="80" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="140" y="152" font-family="'Space Grotesk', sans-serif" font-size="34" font-weight="900" fill="#4F46E5" text-anchor="middle">MG</text>
+  
+  <!-- Content -->
+  <text x="100" y="240" font-family="'JetBrains Mono', monospace" font-size="18" font-weight="600" fill="#4F46E5" letter-spacing="3">FOUNDER • AI BUILDER • B.TECH CSE</text>
+  <text x="100" y="320" font-family="'Space Grotesk', sans-serif" font-size="64" font-weight="900" fill="#111827">Mayank Gangwar</text>
+  <text x="100" y="390" font-family="'Space Grotesk', sans-serif" font-size="38" font-weight="700" fill="url(#textGlow)">Turning ideas into AI-powered products.</text>
+  <text x="100" y="460" font-family="'Inter', sans-serif" font-size="22" font-weight="400" fill="#4B5563">AI • Healthcare • Agriculture • Education</text>
+  
+  <!-- Bottom Bar -->
+  <rect x="100" y="520" width="1000" height="1" fill="#E5E7EB"/>
+  <text x="100" y="560" font-family="'JetBrains Mono', monospace" font-size="16" fill="#6B7280">Jaipur, Rajasthan, India • Intellipaat School of Technology &amp; VGU</text>
+  <text x="1100" y="560" font-family="'JetBrains Mono', monospace" font-size="16" fill="#4F46E5" font-weight="600" text-anchor="end">Jivexa Health • AgriNext • StudyBuddyX • SkillZen</text>
+</svg>
