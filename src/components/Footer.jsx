@@ -71,6 +71,15 @@ export const Footer = () => {
             >
               LinkedIn
             </motion.a>
+            <motion.a
+              href={personalInfo.socials.x}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -2, color: '#60A5FA' }}
+              className="transition-colors hover:text-[#60A5FA]"
+            >
+              X (Twitter)
+            </motion.a>
           </nav>
 
           {/* Back to top button with Spring */}

@@ -14,6 +14,7 @@ A premium, modern, responsive personal portfolio website for **Mayank Gangwar** 
 - **Email:** [mayank.gangwar.hq@gmail.com](mailto:mayank.gangwar.hq@gmail.com)
 - **GitHub:** [mayankgangwarhq](https://github.com/mayankgangwarhq)
 - **LinkedIn:** [mayankgangwar-tech](https://www.linkedin.com/in/mayankgangwar-tech/)
+- **X (Twitter):** [mayankfounder](https://x.com/mayankfounder)
 - **Main Headline:** *"Building Ideas. Creating Impact."*
 - **Subheadline:** *"I'm Mayank Gangwar — a student, founder, and technology enthusiast exploring AI, healthcare, agriculture, and education through real-world projects."*
 - **Tagline:** *"Learn. Build. Experiment. Repeat."*

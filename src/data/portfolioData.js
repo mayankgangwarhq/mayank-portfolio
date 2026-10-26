@@ -18,6 +18,7 @@ export const personalInfo = {
   socials: {
     github: "https://github.com/mayankgangwarhq",
     linkedin: "https://www.linkedin.com/in/mayankgangwar-tech/",
+    x: "https://x.com/mayankfounder",
     // Update with your Instagram handle when ready
     instagram: "https://instagram.com/mayankgangwarhq",
   },
@@ -380,6 +381,12 @@ export const contactInfo = {
       url: "https://www.linkedin.com/in/mayankgangwar-tech/",
       handle: "Mayank Gangwar",
       icon: "Linkedin"
+    },
+    {
+      name: "X (Twitter)",
+      url: "https://x.com/mayankfounder",
+      handle: "@mayankfounder",
+      icon: "X"
     },
     {
       name: "Email",

@@ -11,7 +11,7 @@ import {
   ExternalLink,
   ArrowUpRight
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, InstagramIcon } from './ProjectLogos';
+import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon } from './ProjectLogos';
 
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
@@ -46,6 +46,9 @@ export const Contact = () => {
         return <GithubIcon className="w-5 h-5" />;
       case 'Linkedin':
         return <LinkedinIcon className="w-5 h-5" />;
+      case 'X':
+      case 'Twitter':
+        return <XIcon className="w-5 h-5" />;
       case 'Mail':
         return <Mail className="w-5 h-5" />;
       case 'Instagram':

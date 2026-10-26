@@ -7,7 +7,7 @@ import {
   CheckCircle2,
   ExternalLink
 } from 'lucide-react';
-import { JivexaLogo, GithubIcon, LinkedinIcon } from './ProjectLogos';
+import { JivexaLogo, GithubIcon, LinkedinIcon, XIcon } from './ProjectLogos';
 
 export const Hero = () => {
   // 3D tilt effect for the hero portrait card
@@ -207,7 +207,7 @@ export const Hero = () => {
                 <ArrowUpRight className="w-4 h-4 text-[#64748B]" />
               </motion.a>
 
-              {/* Refined GitHub and LinkedIn Icon Buttons with Spring Lift */}
+              {/* Refined GitHub, LinkedIn, and X Icon Buttons with Spring Lift */}
               <div className="flex items-center gap-2 pl-1">
                 <motion.a
                   href={personalInfo.socials.github}
@@ -232,6 +232,18 @@ export const Hero = () => {
                   title="LinkedIn"
                 >
                   <LinkedinIcon className="w-4 h-4" />
+                </motion.a>
+                <motion.a
+                  href={personalInfo.socials.x}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 rounded-xl bg-white border border-[#E2E8F0] text-[#475569] hover:text-[#2563EB] hover:border-[#2563EB]/50 shadow-xs transition-all"
+                  aria-label="X (Twitter) Profile"
+                  title="X (Twitter)"
+                >
+                  <XIcon className="w-4 h-4" />
                 </motion.a>
               </div>
             </motion.div>
