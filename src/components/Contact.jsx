@@ -18,10 +18,12 @@ import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon } from './ProjectLogos';
 
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
-  const [subject, setSubject] = useState('Discussion: Jivexa Health & Tech Collaboration');
+  const [selectedTopic, setSelectedTopic] = useState('Discussion: Jivexa Health & Digital Healthcare');
+  const [subject, setSubject] = useState('Discussion: Jivexa Health & Digital Healthcare');
   const [message, setMessage] = useState('');
   const [senderName, setSenderName] = useState('');
   const [senderEmail, setSenderEmail] = useState('');
+  const [botcheck, setBotcheck] = useState(false);
   const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error' | 'fallback'
   const [statusMessage, setStatusMessage] = useState('');
 
@@ -39,6 +41,11 @@ export const Contact = () => {
     'General Hello & Networking'
   ];
 
+  const handleSelectTopic = (topic) => {
+    setSelectedTopic(topic);
+    setSubject(topic);
+  };
+
   // Generates honest mailto URL with prefilled user inputs
   const mailtoUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(
     subject || 'Connecting with Mayank Gangwar'
@@ -49,17 +56,22 @@ export const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Spam Protection: silent abort if honeypot was filled
+    if (botcheck) {
+      return;
+    }
+
     if (!senderName.trim() || !senderEmail.trim() || !message.trim()) {
       setFormStatus('error');
       setStatusMessage('Please fill in your name, email, and message.');
       return;
     }
 
-    const key = contactInfo.web3formsKey;
-    if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+    const key = contactInfo.web3formsAccessKey || contactInfo.web3formsKey;
+    if (!key || key === 'PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE' || key === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
       window.location.href = mailtoUrl;
       setFormStatus('fallback');
-      setStatusMessage('Opened your default mail app with the prefilled message. Add your free Web3Forms access key in portfolioData.js to enable silent in-browser sending.');
+      setStatusMessage('Opened your default mail app with the prefilled message. To enable silent in-browser sending, paste your Web3Forms Access Key in portfolioData.js.');
       return;
     }
 
@@ -75,17 +87,21 @@ export const Contact = () => {
         },
         body: JSON.stringify({
           access_key: key,
-          name: senderName,
-          email: senderEmail,
-          subject: subject || 'Portfolio Contact Inquiry',
-          message: message,
-          from_name: `${senderName} via Portfolio`
+          name: senderName.trim(),
+          email: senderEmail.trim(),
+          subject: subject.trim() || `Inquiry: ${selectedTopic}`,
+          topic: selectedTopic,
+          message: message.trim(),
+          from_name: `${senderName.trim()} via Portfolio`,
+          replyto: senderEmail.trim(),
+          botcheck: ''
         })
       });
 
       const data = await response.json();
 
-      if (data.success) {
+      // Strict validation: do not claim success unless the API explicitly confirms submission
+      if (data && data.success === true) {
         setFormStatus('success');
         setStatusMessage('Your message has been sent successfully! Mayank will reply to your email soon.');
         setSenderName('');
@@ -93,7 +109,7 @@ export const Contact = () => {
         setMessage('');
       } else {
         setFormStatus('error');
-        setStatusMessage(data.message || 'Submission was not completed. You can launch your mail app below.');
+        setStatusMessage(data?.message || 'Submission failed. Please verify your access key or launch the mail app below.');
       }
     } catch (err) {
       setFormStatus('error');
@@ -326,7 +342,19 @@ export const Contact = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Topic Presets */}
+                  {/* Honeypot Spam Protection (Invisible to humans, catches automated bots) */}
+                  <input
+                    type="checkbox"
+                    name="botcheck"
+                    className="hidden"
+                    style={{ display: 'none' }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    checked={botcheck}
+                    onChange={(e) => setBotcheck(e.target.checked)}
+                  />
+
+                  {/* Dynamic Topic Selection */}
                   <div>
                     <label className="text-xs font-mono text-[#475569] block mb-2 font-medium">
                       Select a Topic or Project:
@@ -338,9 +366,9 @@ export const Contact = () => {
                           type="button"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setSubject(item)}
+                          onClick={() => handleSelectTopic(item)}
                           className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all text-left ${
-                            subject === item
+                            selectedTopic === item
                               ? 'bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-semibold shadow-xs'
                               : 'bg-[#F8FAFC] text-[#475569] border border-[#E2E8F0] hover:text-[#0F172A] hover:bg-white'
                           }`}
