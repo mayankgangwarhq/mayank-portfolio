@@ -370,13 +370,10 @@ export const contactInfo = {
   location: "Jaipur, Rajasthan, India",
   availability: "Open to discussions, hackathons & project collaborations",
   // ==============================================================
-  // 🔑 WEB3FORMS ACCESS KEY PLACEHOLDER
-  // 1. Visit: https://web3forms.com
-  // 2. Enter: mayank.gangwar.hq@gmail.com
-  // 3. Paste the Access Key you receive below:
+  // 🔑 Web3Forms Access Key for mayank.gangwar.hq@gmail.com
   // ==============================================================
-  web3formsAccessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE",
-  web3formsKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "PASTE_YOUR_WEB3FORMS_ACCESS_KEY_HERE",
+  web3formsAccessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "d0ff4f5b-99a5-465f-9fb8-c65940aa78fe",
+  web3formsKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "d0ff4f5b-99a5-465f-9fb8-c65940aa78fe",
   socials: [
     {
       name: "GitHub",
