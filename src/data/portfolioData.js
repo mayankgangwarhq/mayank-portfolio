@@ -369,6 +369,8 @@ export const contactInfo = {
   email: "mayank.gangwar.hq@gmail.com",
   location: "Jaipur, Rajasthan, India",
   availability: "Open to discussions, hackathons & project collaborations",
+  // Free Web3Forms Access Key from https://web3forms.com
+  web3formsKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "YOUR_WEB3FORMS_ACCESS_KEY_HERE",
   socials: [
     {
       name: "GitHub",

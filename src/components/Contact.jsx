@@ -9,7 +9,10 @@ import {
   MessageSquare,
   MapPin,
   ExternalLink,
-  ArrowUpRight
+  ArrowUpRight,
+  Loader2,
+  CheckCircle2,
+  AlertCircle
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon } from './ProjectLogos';
 
@@ -18,6 +21,9 @@ export const Contact = () => {
   const [subject, setSubject] = useState('Discussion: Jivexa Health & Tech Collaboration');
   const [message, setMessage] = useState('');
   const [senderName, setSenderName] = useState('');
+  const [senderEmail, setSenderEmail] = useState('');
+  const [formStatus, setFormStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error' | 'fallback'
+  const [statusMessage, setStatusMessage] = useState('');
 
   const copyEmailToClipboard = () => {
     navigator.clipboard.writeText(contactInfo.email);
@@ -37,8 +43,63 @@ export const Contact = () => {
   const mailtoUrl = `mailto:${contactInfo.email}?subject=${encodeURIComponent(
     subject || 'Connecting with Mayank Gangwar'
   )}&body=${encodeURIComponent(
-    `Hello Mayank,\n\n${message || 'I came across your portfolio and wanted to reach out regarding...'}\n\nBest regards,\n${senderName || 'A fellow builder'}`
+    `Hello Mayank,\n\n${message || 'I came across your portfolio and wanted to reach out regarding...'}\n\nBest regards,\n${senderName || 'A fellow builder'}${senderEmail ? `\nSender Email: ${senderEmail}` : ''}`
   )}`;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!senderName.trim() || !senderEmail.trim() || !message.trim()) {
+      setFormStatus('error');
+      setStatusMessage('Please fill in your name, email, and message.');
+      return;
+    }
+
+    const key = contactInfo.web3formsKey;
+    if (!key || key === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+      window.location.href = mailtoUrl;
+      setFormStatus('fallback');
+      setStatusMessage('Opened your default mail app with the prefilled message. Add your free Web3Forms access key in portfolioData.js to enable silent in-browser sending.');
+      return;
+    }
+
+    setFormStatus('submitting');
+    setStatusMessage('');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: key,
+          name: senderName,
+          email: senderEmail,
+          subject: subject || 'Portfolio Contact Inquiry',
+          message: message,
+          from_name: `${senderName} via Portfolio`
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFormStatus('success');
+        setStatusMessage('Your message has been sent successfully! Mayank will reply to your email soon.');
+        setSenderName('');
+        setSenderEmail('');
+        setMessage('');
+      } else {
+        setFormStatus('error');
+        setStatusMessage(data.message || 'Submission was not completed. You can launch your mail app below.');
+      }
+    } catch (err) {
+      setFormStatus('error');
+      setStatusMessage('Network request failed. Please check your internet connection or use your email client.');
+    }
+  };
 
   const getSocialIcon = (icon) => {
     switch (icon) {
@@ -214,7 +275,7 @@ export const Contact = () => {
 
           </motion.div>
 
-          {/* Right Column: Direct Pre-Formatted Message Composer */}
+          {/* Right Column: In-Browser Direct Message Composer */}
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -225,107 +286,188 @@ export const Contact = () => {
             <div className="rounded-3xl p-6 sm:p-8 border border-[#E2E8F0] bg-white shadow-md relative">
               <div className="mb-6 space-y-1">
                 <span className="text-xs font-mono text-[#2563EB] uppercase tracking-wider block font-semibold">
-                  Direct Email Dispatch
+                  Direct In-Browser Dispatch
                 </span>
                 <h3 className="text-xl sm:text-2xl font-heading font-bold text-[#0F172A] tracking-tight">
                   Compose & Send Message
                 </h3>
                 <p className="text-xs sm:text-sm text-[#475569] leading-relaxed">
-                  Draft your message below. Clicking send will open your default email application pre-filled with this content — transparent, direct, and zero fake form submissions.
+                  Send a message directly from your browser to Mayank's inbox. No external mail client required.
                 </p>
               </div>
 
-              {/* Form Fields */}
-              <div className="space-y-4">
-                
-                {/* Topic Presets */}
-                <div>
-                  <label className="text-xs font-mono text-[#475569] block mb-2 font-medium">
-                    Select a Topic or Project:
-                  </label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {prefillSubjects.map((item, idx) => (
-                      <motion.button
-                        key={idx}
-                        type="button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setSubject(item)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all text-left ${
-                          subject === item
-                            ? 'bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-semibold shadow-xs'
-                            : 'bg-[#F8FAFC] text-[#475569] border border-[#E2E8F0] hover:text-[#0F172A] hover:bg-white'
+              {formStatus === 'success' ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-8 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] text-center space-y-4"
+                >
+                  <div className="w-14 h-14 mx-auto rounded-full bg-[#10B981]/15 text-[#0D9488] flex items-center justify-center shadow-xs">
+                    <CheckCircle2 className="w-7 h-7 text-[#0D9488]" />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-heading font-bold text-[#0F172A]">
+                      Message Sent Successfully!
+                    </h4>
+                    <p className="text-xs sm:text-sm text-[#0F766E] max-w-md mx-auto mt-1 leading-relaxed">
+                      {statusMessage}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormStatus('idle');
+                      setStatusMessage('');
+                    }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold bg-white text-[#0D9488] border border-[#A7F3D0] hover:bg-[#ECFDF5] transition-all shadow-2xs"
+                  >
+                    <span>Send Another Message</span>
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  {/* Topic Presets */}
+                  <div>
+                    <label className="text-xs font-mono text-[#475569] block mb-2 font-medium">
+                      Select a Topic or Project:
+                    </label>
+                    <div className="flex flex-wrap gap-1.5">
+                      {prefillSubjects.map((item, idx) => (
+                        <motion.button
+                          key={idx}
+                          type="button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={() => setSubject(item)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all text-left ${
+                            subject === item
+                              ? 'bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-semibold shadow-xs'
+                              : 'bg-[#F8FAFC] text-[#475569] border border-[#E2E8F0] hover:text-[#0F172A] hover:bg-white'
+                          }`}
+                        >
+                          {item}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sender Name & Email Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div>
+                      <label htmlFor="sender-name" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
+                        Your Name: <span className="text-[#2563EB]">*</span>
+                      </label>
+                      <input
+                        id="sender-name"
+                        type="text"
+                        required
+                        value={senderName}
+                        onChange={(e) => setSenderName(e.target.value)}
+                        placeholder="e.g. Alex Sharma"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="sender-email" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
+                        Your Email: <span className="text-[#2563EB]">*</span>
+                      </label>
+                      <input
+                        id="sender-email"
+                        type="email"
+                        required
+                        value={senderEmail}
+                        onChange={(e) => setSenderEmail(e.target.value)}
+                        placeholder="e.g. alex@example.com"
+                        className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Custom Subject */}
+                  <div>
+                    <label htmlFor="email-subject" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
+                      Subject Line:
+                    </label>
+                    <input
+                      id="email-subject"
+                      type="text"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 font-mono text-xs transition-all"
+                    />
+                  </div>
+
+                  {/* Message Body */}
+                  <div>
+                    <label htmlFor="email-body" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
+                      Your Message / Idea / Feedback: <span className="text-[#2563EB]">*</span>
+                    </label>
+                    <textarea
+                      id="email-body"
+                      rows={4}
+                      required
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Write your thoughts, questions, or ideas here..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 resize-y transition-all"
+                    />
+                  </div>
+
+                  {/* Status Banner (if error or fallback) */}
+                  <AnimatePresence>
+                    {statusMessage && formStatus !== 'success' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        className={`p-3 rounded-xl border flex items-start gap-2.5 text-xs ${
+                          formStatus === 'error'
+                            ? 'bg-[#FFF1E8] border-[#FED7AA] text-[#C2410C]'
+                            : 'bg-[#EFF6FF] border-[#BFDBFE] text-[#1E40AF]'
                         }`}
                       >
-                        {item}
-                      </motion.button>
-                    ))}
+                        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                        <span className="leading-relaxed">{statusMessage}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Submit CTA Button */}
+                  <div className="pt-2">
+                    <motion.button
+                      type="submit"
+                      disabled={formStatus === 'submitting'}
+                      whileHover={{ scale: formStatus === 'submitting' ? 1 : 1.02 }}
+                      whileTap={{ scale: formStatus === 'submitting' ? 1 : 0.97 }}
+                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white hover:opacity-95 transition-all shadow-md shadow-[#2563EB]/25 active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed btn-shimmer"
+                    >
+                      {formStatus === 'submitting' ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Sending Message...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>Send Message Direct</span>
+                        </>
+                      )}
+                    </motion.button>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-2.5 text-[11px] font-mono text-[#64748B]">
+                      <span>Direct in-browser submission via Web3Forms</span>
+                      <a
+                        href={mailtoUrl}
+                        className="inline-flex items-center gap-1 text-[#2563EB] hover:underline"
+                      >
+                        <span>Open in default email app</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </a>
+                    </div>
                   </div>
-                </div>
-
-                {/* Sender Name */}
-                <div>
-                  <label htmlFor="sender-name" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
-                    Your Name:
-                  </label>
-                  <input
-                    id="sender-name"
-                    type="text"
-                    value={senderName}
-                    onChange={(e) => setSenderName(e.target.value)}
-                    placeholder="e.g. Alex Sharma"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 transition-all"
-                  />
-                </div>
-
-                {/* Custom Subject */}
-                <div>
-                  <label htmlFor="email-subject" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
-                    Subject Line:
-                  </label>
-                  <input
-                    id="email-subject"
-                    type="text"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 font-mono text-xs transition-all"
-                  />
-                </div>
-
-                {/* Message Body */}
-                <div>
-                  <label htmlFor="email-body" className="text-xs font-mono text-[#475569] block mb-1.5 font-medium">
-                    Your Message / Idea / Feedback:
-                  </label>
-                  <textarea
-                    id="email-body"
-                    rows={4}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Write your thoughts, questions, or ideas here..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] placeholder-[#94A3B8] text-sm focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 resize-y transition-all"
-                  />
-                </div>
-
-                {/* Prominent Gradient CTA Button */}
-                <div className="pt-2">
-                  <motion.a
-                    href={mailtoUrl}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-semibold text-sm bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white hover:opacity-95 transition-all shadow-md shadow-[#2563EB]/25 active:scale-95 btn-shimmer"
-                  >
-                    <Send className="w-4 h-4" />
-                    <span>Launch Email Client with Message</span>
-                  </motion.a>
-
-                  <p className="text-[11px] font-mono text-[#64748B] text-center mt-2.5">
-                    Opens directly in your mail application • Zero tracking or third-party storage
-                  </p>
-                </div>
-
-              </div>
-
+                </form>
+              )}
             </div>
           </motion.div>
 
