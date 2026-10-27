@@ -19,6 +19,7 @@ export const personalInfo = {
     github: "https://github.com/mayankgangwarhq",
     linkedin: "https://www.linkedin.com/in/mayankgangwar-tech/",
     x: "https://x.com/mayankfounder",
+    whatsapp: "https://wa.me/919105539049?text=Hi%20Mayank%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20business%20opportunity.",
     // Update with your Instagram handle when ready
     instagram: "https://instagram.com/mayankgangwarhq",
   },
@@ -362,6 +363,22 @@ export const visionData = {
   ]
 };
 
+// ==============================================================
+// 📱 WHATSAPP BUSINESS CONFIGURATION
+// ==============================================================
+export const whatsappBusiness = {
+  name: "WhatsApp Business",
+  accountType: "WhatsApp Business Account",
+  phoneNumber: "+91 9105539049",
+  displayNumber: "+91 91055 39049",
+  cleanNumber: "919105539049",
+  directWaUrl: "https://wa.me/919105539049",
+  prefilledMessage: "Hi Mayank, I visited your portfolio and would like to discuss a business opportunity.",
+  chatUrl: "https://wa.me/919105539049?text=Hi%20Mayank%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20business%20opportunity.",
+  status: "Active Business Channel",
+  availability: "Available for business discussions, partnerships & inquiries",
+};
+
 export const contactInfo = {
   headline: "Have an Idea? Let's Connect.",
   description:
@@ -369,12 +386,20 @@ export const contactInfo = {
   email: "mayank.gangwar.hq@gmail.com",
   location: "Jaipur, Rajasthan, India",
   availability: "Open to discussions, hackathons & project collaborations",
+  whatsapp: whatsappBusiness,
   // ==============================================================
   // 🔑 Web3Forms Access Key for mayank.gangwar.hq@gmail.com
   // ==============================================================
   web3formsAccessKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "d0ff4f5b-99a5-465f-9fb8-c65940aa78fe",
   web3formsKey: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "d0ff4f5b-99a5-465f-9fb8-c65940aa78fe",
   socials: [
+    {
+      name: "WhatsApp Business",
+      url: "https://wa.me/919105539049?text=Hi%20Mayank%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20business%20opportunity.",
+      handle: "+91 91055 39049",
+      icon: "WhatsApp",
+      isBusiness: true
+    },
     {
       name: "GitHub",
       url: "https://github.com/mayankgangwarhq",

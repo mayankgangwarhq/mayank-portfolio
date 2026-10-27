@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { personalInfo } from '../data/portfolioData';
+import { personalInfo, whatsappBusiness } from '../data/portfolioData';
 import {
   ArrowDown,
   ArrowUpRight,
   CheckCircle2,
   ExternalLink
 } from 'lucide-react';
-import { JivexaLogo, GithubIcon, LinkedinIcon, XIcon } from './ProjectLogos';
+import { JivexaLogo, GithubIcon, LinkedinIcon, XIcon, WhatsAppIcon } from './ProjectLogos';
 
 export const Hero = () => {
   // 3D tilt effect for the hero portrait card
@@ -196,6 +196,24 @@ export const Hero = () => {
                 <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
               </motion.a>
 
+              {/* Premium CTA: Contact on WhatsApp Business */}
+              <motion.a
+                href={whatsappBusiness.chatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl font-semibold text-sm bg-[#0F172A] text-white hover:bg-[#020617] border border-[#10B981]/50 hover:border-[#10B981] shadow-md shadow-[#10B981]/15 hover:shadow-lg hover:shadow-[#10B981]/25 transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+                aria-label="Contact on WhatsApp Business (+91 9105539049)"
+                title="Contact Mayank on WhatsApp Business"
+              >
+                <span className="p-1 rounded-lg bg-[#10B981]/20 text-[#34D399] group-hover:bg-[#10B981] group-hover:text-white transition-colors">
+                  <WhatsAppIcon className="w-4 h-4" />
+                </span>
+                <span>Contact on WhatsApp Business</span>
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#34D399] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </motion.a>
+
               {/* Secondary CTA: Get In Touch */}
               <motion.a
                 href="#contact"
@@ -207,8 +225,20 @@ export const Hero = () => {
                 <ArrowUpRight className="w-4 h-4 text-[#64748B]" />
               </motion.a>
 
-              {/* Refined GitHub, LinkedIn, and X Icon Buttons with Spring Lift */}
+              {/* Refined WhatsApp, GitHub, LinkedIn, and X Icon Buttons with Spring Lift */}
               <div className="flex items-center gap-2 pl-1">
+                <motion.a
+                  href={whatsappBusiness.chatUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 rounded-xl bg-white border border-[#E2E8F0] text-[#475569] hover:text-[#10B981] hover:border-[#10B981]/50 shadow-xs transition-all"
+                  aria-label="WhatsApp Business Chat"
+                  title="WhatsApp Business (+91 91055 39049)"
+                >
+                  <WhatsAppIcon className="w-4 h-4" />
+                </motion.a>
                 <motion.a
                   href={personalInfo.socials.github}
                   target="_blank"

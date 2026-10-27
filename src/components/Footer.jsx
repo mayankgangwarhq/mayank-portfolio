@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { footerData, personalInfo } from '../data/portfolioData';
+import { footerData, personalInfo, whatsappBusiness } from '../data/portfolioData';
 import { MGMonogram } from './ProjectLogos';
 import { ArrowUp } from 'lucide-react';
 
@@ -79,6 +79,15 @@ export const Footer = () => {
               className="transition-colors hover:text-[#60A5FA]"
             >
               X (Twitter)
+            </motion.a>
+            <motion.a
+              href={whatsappBusiness.chatUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -2, color: '#34D399' }}
+              className="transition-colors hover:text-[#34D399]"
+            >
+              WhatsApp
             </motion.a>
           </nav>
 

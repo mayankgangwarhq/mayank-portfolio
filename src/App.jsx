@@ -13,6 +13,7 @@ import { Journey } from './components/Journey';
 import { Vision } from './components/Vision';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 
 export function App() {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -56,6 +57,9 @@ export function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Subtle Floating WhatsApp Business Chat Action */}
+      <FloatingWhatsApp />
     </div>
   );
 }

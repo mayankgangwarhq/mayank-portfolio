@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { contactInfo } from '../data/portfolioData';
+import { contactInfo, whatsappBusiness } from '../data/portfolioData';
 import {
   Mail,
   Copy,
@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   AlertCircle
 } from 'lucide-react';
-import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon } from './ProjectLogos';
+import { GithubIcon, LinkedinIcon, InstagramIcon, XIcon, WhatsAppIcon } from './ProjectLogos';
 
 export const Contact = () => {
   const [copied, setCopied] = useState(false);
@@ -119,6 +119,8 @@ export const Contact = () => {
 
   const getSocialIcon = (icon) => {
     switch (icon) {
+      case 'WhatsApp':
+        return <WhatsAppIcon className="w-5 h-5 text-[#10B981]" />;
       case 'Github':
         return <GithubIcon className="w-5 h-5" />;
       case 'Linkedin':
@@ -182,6 +184,76 @@ export const Contact = () => {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 space-y-6"
           >
+            {/* Dedicated WhatsApp Business Contact Card (Futuristic Dark Theme with Elegant Green Accents) */}
+            <motion.div
+              whileHover={{ y: -3 }}
+              className="rounded-3xl p-6 sm:p-7 border border-[#1E293B] bg-gradient-to-br from-[#0F172A] via-[#0B132B] to-[#020617] text-white shadow-xl relative overflow-hidden group hover:border-[#10B981]/60 transition-all duration-300"
+            >
+              {/* Subtle Green & Blue Background Glow */}
+              <div className="absolute -top-16 -right-16 w-44 h-44 bg-[#10B981]/15 rounded-full blur-3xl pointer-events-none group-hover:bg-[#10B981]/25 transition-all duration-500" />
+              <div className="absolute -bottom-16 -left-16 w-36 h-36 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none" />
+
+              {/* Status & Business Badge */}
+              <div className="flex items-center justify-between gap-2 mb-3.5 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/15 border border-[#10B981]/30 text-[11px] font-mono text-[#34D399]">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                  <span className="font-semibold tracking-wide">WhatsApp Business</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400">Direct Founder Channel</span>
+              </div>
+
+              <h3 className="text-xl font-heading font-bold text-white mb-1 tracking-tight relative z-10">
+                Instant Business Chat
+              </h3>
+              <p className="text-xs text-slate-300 mb-4 leading-relaxed relative z-10">
+                Connect directly on WhatsApp Business for partnership inquiries, startup collaboration, and project discussions.
+              </p>
+
+              {/* Business Contact Number Pill */}
+              <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-between gap-3 mb-3 relative z-10">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="p-2 rounded-xl bg-[#10B981]/20 text-[#34D399] shrink-0 border border-[#10B981]/30">
+                    <WhatsAppIcon className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[10px] uppercase font-mono text-slate-400 block tracking-wider">Business Number</span>
+                    <a
+                      href={whatsappBusiness.chatUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs sm:text-sm font-mono font-semibold text-white hover:text-[#34D399] transition-colors truncate block"
+                    >
+                      {whatsappBusiness.displayNumber}
+                    </a>
+                  </div>
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#10B981]/20 text-[#34D399] border border-[#10B981]/30 shrink-0">
+                  Online
+                </span>
+              </div>
+
+              {/* Prefilled Inquiry Message Preview */}
+              <div className="p-3 rounded-xl bg-slate-900/70 border border-slate-800 text-[11px] font-mono mb-4 relative z-10">
+                <span className="text-slate-400 block mb-1 text-[10px] uppercase tracking-wider font-sans">Prefilled Message:</span>
+                <span className="text-slate-200 italic">"{whatsappBusiness.prefilledMessage}"</span>
+              </div>
+
+              {/* Direct WhatsApp Chat Action Button */}
+              <motion.a
+                href={whatsappBusiness.chatUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#10B981] to-[#059669] text-white hover:from-[#059669] hover:to-[#047857] shadow-lg shadow-[#10B981]/25 hover:shadow-[#10B981]/40 transition-all active:scale-95 relative z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+                aria-label="Start chat on WhatsApp Business (+91 9105539049)"
+              >
+                <WhatsAppIcon className="w-4 h-4 shrink-0" />
+                <span>Start WhatsApp Business Chat</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </motion.a>
+            </motion.div>
+
             {/* Quick Email Card */}
             <motion.div
               whileHover={{ y: -3 }}
